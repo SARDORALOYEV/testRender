@@ -17,6 +17,17 @@ app.use(cors());              // Barcha manbalardan kelgan so'rovlarga ruxsat
 app.use(logger);              // Har bir so'rovni konsolga yozadi
 app.use(express.json());      // POST/PUT body'dagi JSON ni avtomatik o'qiydi (req.body)
 
+// MongoDB bazasiga ulanish:
+const MONGO_URI = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/student_db";
+
+mongoose.connect(MONGO_URI)
+    .then(() => console.log("🔌 MongoDB ma'lumotlar bazasiga muvaffaqiyatli ulandi!"))
+    .catch((err) => {
+        console.error("❌ MongoDB ulanishida xatolik yuz berdi:");
+        console.error(err);
+        process.exit(1); // Ulanish xato bo'lsa serverni to'xtatadi
+    });
+
 // 4-qadam: Route faylini ulaymiz — talabalar bilan bog'liq yo'llar
 const studentRoutes = require('./routes/studentRoutes');
 
